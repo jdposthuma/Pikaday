@@ -275,7 +275,8 @@
             weekdays      : ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
             weekdaysShort : ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
             midnight      : 'Midnight',
-            noon          : 'Noon'
+            noon: 'Noon',
+            timeExpanderTitle: 'Show/hide time picker'
         },
 
         // Theme Classname
@@ -440,14 +441,16 @@
         return to_return;
     },
 
-    renderTime = function(hh, mm, ss, opts)
-    {
-        var to_return = '<table cellpadding="0" cellspacing="0" class="pika-time"><tbody><tr>' +
-            renderTimePicker(24, hh, 'pika-select-hour', function(i) {
+    renderTime = function (hh, mm, ss, opts) {
+
+        var to_return = '<i class="icon-clock pika-time-toggle' + (opts.expandTime ? " show" : "") + '" title="' + opts.i18n.timeExpanderTitle + '"></i>';
+
+        to_return += '<table cellpadding="0" cellspacing="0" class="pika-time"><tbody><tr>' +
+            renderTimePicker(24, hh, 'pika-select-hour', function (i) {
                 if (opts.use24hour) {
                     return i;
                 } else {
-                    var to_return = (i%12) + (i<12 ? ' AM' : ' PM');
+                    var to_return = (i % 12) + (i < 12 ? ' AM' : ' PM');
                     if (to_return == '0 AM') {
                         return opts.i18n.midnight;
                     } else if (to_return == '0 PM') {
@@ -459,16 +462,15 @@
             },
             opts.incrementHourBy) +
             '<td>:</td>' +
-            renderTimePicker(60, mm, 'pika-select-minute', function(i) { if (i < 10) return "0" + i; return i }, opts.incrementMinuteBy);
+            renderTimePicker(60, mm, 'pika-select-minute', function (i) { if (i < 10) return "0" + i; return i }, opts.incrementMinuteBy);
 
         if (opts.showSeconds) {
             to_return += '<td>:</td>' +
-                renderTimePicker(60, ss, 'pika-select-second', function(i) { if (i < 10) return "0" + i; return i }, opts.incrementSecondBy);
+                renderTimePicker(60, ss, 'pika-select-second', function (i) { if (i < 10) return "0" + i; return i }, opts.incrementSecondBy);
         }
+
         return to_return + '</tr></tbody></table>';
     },
-
-
 
     /**
      * Pikaday constructor
@@ -638,12 +640,25 @@
             }
         };
 
+        self._onContainerClick = function (e) {
+            e = e || window.event;
+            var target = e.target || e.srcElement,
+                pEl = target;
+            if (!target) {
+                return;
+            }
+            if (hasClass(target, 'pika-time-toggle')) {
+                self.toggleTimeExpander(target, opts);
+            }
+        };
+
         self.el = document.createElement('div');
         self.el.className = 'pika-single' + (opts.isRTL ? ' is-rtl' : '') + (opts.theme ? ' ' + opts.theme : '');
 
         addEvent(self.el, 'mousedown', self._onMouseDown, true);
         addEvent(self.el, 'touchend', self._onMouseDown, true);
         addEvent(self.el, 'change', self._onChange);
+        addEvent(self.el, 'click', self._onContainerClick);
 
         if (opts.field) {
             if (opts.container) {
@@ -694,7 +709,6 @@
      */
     Pikaday.prototype = {
 
-
         /**
          * configure functionality
          */
@@ -705,6 +719,10 @@
             }
 
             var opts = extend(this._o, options, true);
+
+            if (defaults.i18n) {
+                opts.i18n = extend(opts.i18n, defaults.i18n);
+            }
 
             opts.isRTL = !!opts.isRTL;
 
@@ -1026,7 +1044,7 @@
             }
 
             if (opts.showTime) {
-                html += '<div class="pika-time-container">' +
+                html += '<div class="pika-time-container' + (opts.expandTime ? " show" : "") + '">' +
                         renderTime(
                             this._d ? this._d.getHours() : 0,
                             this._d ? this._d.getMinutes() : 0,
@@ -1200,6 +1218,21 @@
             return this._v;
         },
 
+        toggleTimeExpander: function (el, opts) {
+
+            if (!el) {
+                return;
+            }
+
+            if (el.parentElement.className.indexOf(" show") === -1) {
+                el.parentElement.className += " show";
+                opts.expandTime = true;
+            } else {
+                el.parentElement.className = el.parentElement.className.replace(" show", "");
+                opts.expandTime = false;
+            }
+        },
+
         show: function()
         {
             if (!this._v) {
@@ -1243,6 +1276,7 @@
             removeEvent(this.el, 'mousedown', this._onMouseDown, true);
             removeEvent(this.el, 'touchend', this._onMouseDown, true);
             removeEvent(this.el, 'change', this._onChange);
+            removeEvent(this.el, 'click', this._onContainerClick);
             if (this._o.field) {
                 removeEvent(this._o.field, 'change', this._onInputChange);
                 if (this._o.bound) {
