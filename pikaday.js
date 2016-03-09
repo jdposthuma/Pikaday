@@ -443,7 +443,7 @@
 
     renderTime = function (hh, mm, ss, opts) {
 
-        var to_return = '<i class="icon-clock pika-time-toggle' + (opts.expandTime ? " show" : "") + '" title="' + opts.i18n.timeExpanderTitle + '"></i>';
+        var to_return = '<i class="pika-icon-clock pika-time-toggle' + (opts.expandTime ? " show" : "") + '" title="' + opts.i18n.timeExpanderTitle + '"></i>';
 
         to_return += '<table cellpadding="0" cellspacing="0" class="pika-time"><tbody><tr>' +
             renderTimePicker(24, hh, 'pika-select-hour', function (i) {
@@ -649,6 +649,8 @@
             }
             if (hasClass(target, 'pika-time-toggle')) {
                 self.toggleTimeExpander(target, opts);
+            } else if (hasClass(target, 'pika-close')) {
+                self.hide();
             }
         };
 
@@ -1019,6 +1021,7 @@
             if (!this._v && !force) {
                 return;
             }
+
             var opts = this._o,
                 minYear = opts.minYear,
                 maxYear = opts.maxYear,
@@ -1052,6 +1055,8 @@
                             opts)
                     + '</div>';
             }
+
+            html += '<i class="pika-icon-cancel pika-close"></i>';
 
             this.el.innerHTML = html;
 
