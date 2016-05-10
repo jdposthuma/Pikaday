@@ -443,7 +443,12 @@
 
     renderTime = function (hh, mm, ss, opts) {
 
-        var to_return = '<i class="pika-icon-clock pika-time-toggle' + (opts.expandTime ? " show" : "") + '" title="' + opts.i18n.timeExpanderTitle + '"></i>';
+        var to_return = "<div>";
+        to_return += '<i class="icon-cancel pika-clear" title="Clear date"></i>';
+        to_return += '<i class="icon-calendar-empty pika-today" title="Set today as the date"><span>' + (new Date()).getDate() + '</span></i>';
+        to_return += '<i class="icon-clock pika-time-toggle' + (opts.expandTime ? " show" : "") + '" title="' + opts.i18n.timeExpanderTitle + '"></i>';
+        to_return += '<i class="icon-save pika-close" title="Done editing date"></i>';
+        to_return += '</div>';
 
         to_return += '<table cellpadding="0" cellspacing="0" class="pika-time"><tbody><tr>' +
             renderTimePicker(24, hh, 'pika-select-hour', function (i) {
@@ -649,6 +654,10 @@
             }
             if (hasClass(target, 'pika-time-toggle')) {
                 self.toggleTimeExpander(target, opts);
+            } else if (hasClass(target, 'pika-clear')) {
+                self.clear();
+            } else if (hasClass(target, 'pika-today')) {
+                self.setDateToday(opts);
             } else if (hasClass(target, 'pika-close')) {
                 self.hide();
             }
@@ -1056,8 +1065,6 @@
                     + '</div>';
             }
 
-            html += '<i class="pika-icon-cancel pika-close"></i>';
-
             this.el.innerHTML = html;
 
             if (opts.bound) {
@@ -1225,17 +1232,36 @@
 
         toggleTimeExpander: function (el, opts) {
 
-            if (!el) {
+            if (!el || !el.parentElement || !el.parentElement.parentElement) {
                 return;
             }
 
-            if (el.parentElement.className.indexOf(" show") === -1) {
-                el.parentElement.className += " show";
-                opts.expandTime = true;
+            var parentEl = el.parentElement.parentElement;
+
+            if (parentEl.className.indexOf(" show") === -1) {
+                this.showTimeExpander(parentEl, opts);
             } else {
-                el.parentElement.className = el.parentElement.className.replace(" show", "");
-                opts.expandTime = false;
+                this.hideTimeExpander(parentEl, opts);
             }
+        },
+
+        hideTimeExpander: function (el, opts) {
+            el.className = el.className.replace(" show", "");
+            opts.expandTime = false;
+        },
+
+        showTimeExpander: function (el, opts) {
+            el.className += " show";
+            opts.expandTime = true;
+        },
+        
+        clear: function () {
+            this.hide();
+            this.setDate(undefined);
+        },
+
+        setDateToday: function (opts) {
+            this.setDate(new Date());
         },
 
         show: function()

@@ -1,327 +1,281 @@
+//colors
+$color_mine_shaft_approx: #333;
+$white: #fff;
+$color_celeste_approx: #ccc;
+$color_pink_swan_approx: #bbb;
+$black_50: rgba(0,0,0,.5);
+$color_mountain_mist_approx: #999;
+$color_storm_dust_approx: #666;
+$color_wild_sand_approx: #f5f5f5;
+$color_picton_blue_approx: #33aaff;
+$color_curious_blue_approx: #178fe5;
+$color_flush_orange_approx: #ff8000;
+
+//fonts
+$font_0: Helvetica Neue;
+$font_1: Helvetica;
+$font_2: Arial;
+$font_3: sans-serif;
+
+//data-uris
+$data_uri_0: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAAUklEQVR42u3VMQoAIBADQf8Pgj+OD9hG2CtONJB2ymQkKe0HbwAP0xucDiQWARITIDEBEnMgMQ8S8+AqBIl6kKgHiXqQqAeJepBo/z38J/U0uAHlaBkBl9I4GwAAAABJRU5ErkJggg==";
+$data_uri_1: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAAU0lEQVR42u3VOwoAMAgE0dwfAnNjU26bYkBCFGwfiL9VVWoO+BJ4Gf3gtsEKKoFBNTCoCAYVwaAiGNQGMUHMkjGbgjk2mIONuXo0nC8XnCf1JXgArVIZAQh5TKYAAAAASUVORK5CYII=";
+
+//@extend-elements
+//original selectors
+//.pika-prev, .pika-next
+%extend_1 {
+	display: block;
+	cursor: pointer;
+	position: relative;
+	outline: none;
+	border: 0;
+	padding: 0;
+	width: 20px;
+	height: 30px;
+	color: rgba(0, 0, 0, 0);
+	white-space: nowrap;
+	overflow: hidden;
+	background-color: transparent;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 75% 75%;
+	opacity: .5;
+	*position: absolute;
+	*top: 0;
+}
+
+//original selectors
+//.pika-prev, .is-rtl .pika-next
+%extend_2 {
+	float: left;
+	background-image: url($data_uri_0);
+	*left: 0;
+}
+
+//original selectors
+//.pika-next, .is-rtl .pika-prev
+%extend_3 {
+	float: right;
+	background-image: url($data_uri_1);
+	*right: 0;
+}
+
+
 @charset "UTF-8";
-
-/*!
- * Pikaday
- * Copyright © 2014 David Bushell | BSD & MIT license | http://dbushell.com/
- */
-
 .pika-single {
-  z-index: 9999;
-  display: block;
-  position: relative;
-  color: #333;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-bottom-color: #bbb;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  &:before {
-    content: " ";
-    display: table;
-  }
-  &:after {
-    content: " ";
-    display: table;
-    clear: both;
-  }
-  *zoom: 1;
-  &.is-hidden {
-    display: none;
-  }
-  &.is-bound {
-    position: absolute;
-    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.5);
-  }
+	z-index: 9999;
+	display: block;
+	position: relative;
+	color: $color_mine_shaft_approx;
+	background: $white;
+	border: 1px solid $color_celeste_approx;
+	border-bottom-color: $color_pink_swan_approx;
+	font-family: $font_0, $font_1, $font_2, $font_3;
+	*zoom: 1;
+	&:before {
+		content: " ";
+		display: table;
+	}
+	&:after {
+		content: " ";
+		display: table;
+		clear: both;
+	}
+	&.is-hidden {
+		display: none;
+	}
+	&.is-bound {
+		position: absolute;
+		//Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+		box-shadow: 0 5px 15px -5px $black_50;
+	}
 }
-
-/*
-clear child float (pika-lendar), using the famous micro clearfix hack
-http://nicolasgallagher.com/micro-clearfix-hack/
-*/
-
 .pika-lendar {
-  float: left;
-  width: 240px;
-  margin: 8px;
+	float: left;
+	width: 240px;
+	margin: 8px;
 }
-
 .pika-title {
-  position: relative;
-  text-align: center;
+	position: relative;
+	text-align: center;
+	select {
+		cursor: pointer;
+		position: absolute;
+		z-index: 9998;
+		margin: 0;
+		left: 0;
+		top: 5px;
+		filter: alpha(opacity=0);
+		opacity: 0;
+	}
 }
-
 .pika-label {
-  display: inline-block;
-  *display: inline;
-  position: relative;
-  z-index: 9999;
-  overflow: hidden;
-  margin: 0;
-  padding: 5px 3px;
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: bold;
-  background-color: #fff;
+	display: inline-block;
+	*display: inline;
+	position: relative;
+	z-index: 9999;
+	overflow: hidden;
+	margin: 0;
+	padding: 5px 3px;
+	font-size: 14px;
+	line-height: 20px;
+	font-weight: bold;
+	background-color: $white;
 }
-
-.pika-title select {
-  cursor: pointer;
-  position: absolute;
-  z-index: 9998;
-  margin: 0;
-  left: 0;
-  top: 5px;
-  filter: alpha(opacity = 0);
-  opacity: 0;
-}
-
-.pika-prev, .pika-next {
-  display: block;
-  cursor: pointer;
-  position: relative;
-  outline: none;
-  border: 0;
-  padding: 0;
-  width: 20px;
-  height: 30px;
-  color: rgba(0, 0, 0, 0);
-  white-space: nowrap;
-  overflow: hidden;
-  background-color: transparent;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: 75% 75%;
-  opacity: .5;
-  *position: absolute;
-  *top: 0;
-}
-
 .pika-prev {
-  margin-left: 20px;
+	@extend %extend_1;
+	margin-left: 20px;
+	@extend %extend_2;
+	&:hover {
+		opacity: 1;
+	}
+	&.is-disabled {
+		cursor: default;
+		opacity: .2;
+	}
 }
-
 .pika-next {
-  margin-right: 20px;
+	@extend %extend_1;
+	margin-right: 20px;
+	@extend %extend_3;
+	&:hover {
+		opacity: 1;
+	}
+	&.is-disabled {
+		cursor: default;
+		opacity: .2;
+	}
 }
-
-.pika-prev:hover, .pika-next:hover {
-  opacity: 1;
+.is-rtl {
+	.pika-next {
+		@extend %extend_2;
+	}
+	.pika-prev {
+		@extend %extend_3;
+	}
 }
-
-.pika-prev, .is-rtl .pika-next {
-  float: left;
-  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAAUklEQVR42u3VMQoAIBADQf8Pgj+OD9hG2CtONJB2ymQkKe0HbwAP0xucDiQWARITIDEBEnMgMQ8S8+AqBIl6kKgHiXqQqAeJepBo/z38J/U0uAHlaBkBl9I4GwAAAABJRU5ErkJggg==');
-  *left: 0;
-}
-
-.pika-next, .is-rtl .pika-prev {
-  float: right;
-  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAeCAYAAAAsEj5rAAAAU0lEQVR42u3VOwoAMAgE0dwfAnNjU26bYkBCFGwfiL9VVWoO+BJ4Gf3gtsEKKoFBNTCoCAYVwaAiGNQGMUHMkjGbgjk2mIONuXo0nC8XnCf1JXgArVIZAQh5TKYAAAAASUVORK5CYII=');
-  *right: 0;
-}
-
-.pika-prev.is-disabled, .pika-next.is-disabled {
-  cursor: default;
-  opacity: .2;
-}
-
 .pika-select {
-  display: inline-block;
-  *display: inline;
-  width: auto;
-  margin: 3px;
+	display: inline-block;
+	*display: inline;
+	width: auto;
+	margin: 3px;
 }
-
 .pika-table {
-  width: 100%;
-  border-collapse: collapse;
-  border-spacing: 0;
-  border: 0;
-  th, td {
-    width: 14.285714285714286%;
-    padding: 0;
-  }
-  th {
-    color: #999;
-    font-size: 12px;
-    line-height: 25px;
-    font-weight: bold;
-    text-align: center;
-  }
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+	border: 0;
+	th {
+		width: 14.285714285714286%;
+		padding: 0;
+		color: $color_mountain_mist_approx;
+		font-size: 12px;
+		line-height: 25px;
+		font-weight: bold;
+		text-align: center;
+	}
+	td {
+		width: 14.285714285714286%;
+		padding: 0;
+	}
+	abbr {
+		border-bottom: none;
+		cursor: help;
+	}
 }
-
 .pika-button {
-  cursor: pointer;
-  display: block;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  outline: none;
-  border: 0;
-  margin: 0;
-  width: 100%;
-  padding: 5px;
-  color: #666;
-  font-size: 12px;
-  line-height: 15px;
-  text-align: right;
-  background: #f5f5f5;
+	cursor: pointer;
+	display: block;
+	//Instead of the line below you could use @include box-sizing($bs)
+	box-sizing: border-box;
+	outline: none;
+	border: 0;
+	margin: 0;
+	width: 100%;
+	padding: 5px;
+	color: $color_storm_dust_approx;
+	font-size: 12px;
+	line-height: 15px;
+	text-align: right;
+	background: $color_wild_sand_approx;
+	&:hover {
+		color: $white !important;
+		background: $color_flush_orange_approx !important;
+		//Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+		box-shadow: none !important;
+		//Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+		border-radius: 3px !important;
+	}
 }
-
 .pika-week {
-  font-size: 11px;
-  color: #999;
+	font-size: 11px;
+	color: $color_mountain_mist_approx;
 }
-
-.is-today .pika-button {
-  color: #33aaff;
-  font-weight: bold;
-}
-
-.is-selected .pika-button {
-  color: #fff;
-  font-weight: bold;
-  background: #33aaff;
-  box-shadow: inset 0 1px 3px #178fe5;
-  border-radius: 3px;
-}
-
-.is-disabled .pika-button {
-  pointer-events: none;
-  cursor: default;
-  color: #999;
-  opacity: .3;
-}
-
-.pika-button:hover {
-  color: #fff !important;
-  background: #ff8000 !important;
-  box-shadow: none !important;
-  border-radius: 3px !important;
-}
-
-/* styling for abbr */
-
-.pika-table abbr {
-  border-bottom: none;
-  cursor: help;
-}
-
 .pika-time-container {
-  clear: both;
-  height: 25px;
-  transition: all 200ms ease 200ms;
-  -o-transition: all 200ms ease 200ms;
-  -moz-transition: all 200ms ease 200ms;
-  -webkit-transition: all 200ms ease 200ms;
-  &.show {
-    height: 75px;
-    transition: all 200ms ease;
-    -o-transition: all 200ms ease;
-    -moz-transition: all 200ms ease;
-    -webkit-transition: all 200ms ease;
-  }
+	clear: both;
+	height: 30px;
+	//Instead of the line below you could use @include transition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+	transition: all 200ms ease 200ms;
+	text-align: center;
+	padding: 0 5px;
+	&.show {
+		height: 80px;
+		//Instead of the line below you could use @include transition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+		transition: all 200ms ease;
+		.pika-time {
+			visibility: visible;
+			opacity: 1;
+			//Instead of the line below you could use @include transition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+			transition: all 200ms ease 200ms;
+		}
+		.pika-time-toggle {
+		}
+	}
+	> div {
+		display: flex;
+	}
+	i {
+		cursor: pointer;
+		color: $color_mountain_mist_approx;
+		height: auto;
+		font-size: 18px;
+		width: 25%;
+		> span {
+			pointer-events: none;
+			font-size: 9px;
+			font-style: normal;
+			position: absolute;
+			margin-left: -18px;
+			margin-top: 3px;
+		}
+	}
 }
-
 .pika-time {
-  margin: 7px auto 7px;
-  visibility: collapse;
-  opacity: 0;
-  transition: all 200ms ease;
-  -o-transition: all 200ms ease;
-  -moz-transition: all 200ms ease;
-  -webkit-transition: all 200ms ease;
+	margin: 7px auto 7px;
+	visibility: collapse;
+	opacity: 0;
+	//Instead of the line below you could use @include transition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+	transition: all 200ms ease;
 }
-
-.pika-time-container.show > .pika-time {
-  visibility: visible;
-  opacity: 1;
-  transition: all 200ms ease 200ms;
-  -o-transition: all 200ms ease 200ms;
-  -moz-transition: all 200ms ease 200ms;
-  -webkit-transition: all 200ms ease 200ms;
-}
-
-.pika-time-toggle {
-  width: 20px;
-  font-size: 16px;
-  margin: 0 auto;
-  display: block;
-  cursor: pointer;
-  color: #ff8000;
-  min-height: 16px;
-}
-
-.pika-time-container.show > .pika-time-toggle {
-  color: #999;
-}
-
 .pika-close {
-  margin: 5px 5px 0 0;
-  position: absolute;
-  top: 0;
-  right: 0;
-  color: #999;
-  cursor: pointer;
 }
-
-@font-face {
-  font-family: 'fontello';
-  src: url('../font/fontello.eot?69631988');
-  src: url('../font/fontello.eot?69631988#iefix') format("embedded-opentype"), url('../font/fontello.svg?69631988#fontello') format("svg");
-  font-weight: normal;
-  font-style: normal;
+.is-today .pika-button {
+	color: $color_picton_blue_approx;
+	font-weight: bold;
 }
-
-
-@font-face {
-  font-family: 'fontello';
-  src: url('data:application/octet-stream;base64,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') format("woff"), url('data:application/octet-stream;base64,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sE8ssgABQistsFAssgEAQistsFEssgEBQistsFIssgAAPistsFMssgABPistsFQssgEAPistsFUssgEBPistsFYssgAAQCstsFcssgABQCstsFgssgEAQCstsFkssgEBQCstsFossgAAQystsFsssgABQystsFwssgEAQystsF0ssgEBQystsF4ssgAAPystsF8ssgABPystsGAssgEAPystsGEssgEBPystsGIssDcrLrErARQrLbBjLLA3K7A7Ky2wZCywNyuwPCstsGUssAAWsDcrsD0rLbBmLLA4Ky6xKwEUKy2wZyywOCuwOystsGgssDgrsDwrLbBpLLA4K7A9Ky2waiywOSsusSsBFCstsGsssDkrsDsrLbBsLLA5K7A8Ky2wbSywOSuwPSstsG4ssDorLrErARQrLbBvLLA6K7A7Ky2wcCywOiuwPCstsHEssDorsD0rLbByLLMJBAIDRVghGyMhWUIrsAhlsAMkUHiwARUwLQBLuADIUlixAQGOWbABuQgACABjcLEABUKxAAAqsQAFQrEACCqxAAVCsQAIKrEABUK5AAAACSqxAAVCuQAAAAkqsQMARLEkAYhRWLBAiFixA2REsSYBiFFYugiAAAEEQIhjVFixAwBEWVlZWbEADCq4Af+FsASNsQIARAA=') format("truetype");
+.is-selected .pika-button {
+	color: $white;
+	font-weight: bold;
+	background: $color_picton_blue_approx;
+	//Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+	box-shadow: inset 0 1px 3px $color_curious_blue_approx;
+	//Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+	border-radius: 3px;
 }
-
-
-/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
-/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
-/*
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-  @font-face {
-    font-family: 'fontello';
-    src: url('../font/fontello.svg?69631988#fontello') format('svg');
-  }
+.is-disabled .pika-button {
+	pointer-events: none;
+	cursor: default;
+	color: $color_mountain_mist_approx;
+	opacity: .3;
 }
-*/
-
-[class^="pika-icon-"]:before, [class*=" pika-icon-"]:before {
-  font-family: "fontello";
-  font-style: normal;
-  font-weight: normal;
-  speak: none;
-  display: inline-block;
-  text-decoration: inherit;
-  width: 1em;
-  margin-right: .2em;
-  text-align: center;
-  /* opacity: .8; */
-  /* For safety - reset parent styles, that can break glyph codes*/
-  font-variant: normal;
-  text-transform: none;
-  /* fix buttons height, for twitter bootstrap */
-  line-height: 1em;
-  /* Animation center compensation - margins should be symmetric */
-  /* remove if not needed */
-  margin-left: .2em;
-  /* you can be more comfortable with increased icons size */
-  /* font-size: 120%; */
-  /* Uncomment for 3D effect */
-  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
-}
-
-.pika-icon-clock:before {
-  content: '\e800';
-}
-
-/* '' */
-
-.pika-icon-cancel:before {
-  content: '\e801';
-}
-
-/* '' */
