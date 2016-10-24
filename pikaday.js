@@ -1,6 +1,6 @@
 /*!
  * Pikaday
- *
+ * Test change
  * Copyright © 2016 Jason Posthuma | BSD & MIT license | https://github.com/jdposthuma/Pikaday
  */
 
