@@ -30,7 +30,7 @@
   },
   "jspm": {
     "dependencies": {
-      "moment": "2.x"
+      "moment": "^2.x"
     }
   },
   "devDependencies": {
