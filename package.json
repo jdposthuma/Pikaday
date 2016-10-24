@@ -9,8 +9,7 @@
     "time",
     "datetime"
   ],
-  "homepage": "http://dbushell.github.io/Pikaday/",
-  "bugs": "https://github.com/owenmead/Pikaday/issues",
+  "bugs": "https://github.com/jdposthuma/Pikaday/issues",
   "licenses": [
     {
       "type": "BSD",
@@ -24,7 +23,7 @@
   "main": "pikaday.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/owenmead/Pikaday.git"
+    "url": "https://github.com/jdposthuma/Pikaday.git"
   },
   "optionalDependencies": {
     "moment": "2.x"
